@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Player : Character
 {
-    // todo 倒した時にリファレンスがなくなる、近い敵に向かっていく
+    // todo 近い敵に向かっていく
     [SerializeField] Scrollbar hpBar;
     [SerializeField] Text hpText;
 
@@ -14,14 +14,17 @@ public class Player : Character
     // Start is called before the first frame update
     void Start()
     {
-        enemy = GameObject.FindGameObjectWithTag("Enemy"); // リストで返したい
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        MoveCharacter(enemy);
-        PlayerHPManagement();
+        if (enemy = GameObject.FindGameObjectWithTag("Enemy"))
+        {
+            MoveCharacter(enemy);
+        }
+        HPBarDisplay();
         DestroyCharacter();
     }
 
@@ -33,9 +36,13 @@ public class Player : Character
         }
     }
 
-    private void PlayerHPManagement()
+    private void HPBarDisplay()
     {
         hpBar.size = (float)charHP / (float)maxHP;
         hpText.text = "HP : " + charHP.ToString();
+        if (charHP <= 0)
+        {
+            // Handleを壊す
+        }
     }
 }

@@ -9,13 +9,16 @@ public class Enemy : Character
     // Start is called before the first frame update
     void Start()
     {
-        player = GameObject.Find("Player");
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        MoveCharacter(player);
+        if (player = GameObject.FindGameObjectWithTag("Player"))
+        {
+            MoveCharacter(player);
+        }
         DestroyCharacter();
     }
 

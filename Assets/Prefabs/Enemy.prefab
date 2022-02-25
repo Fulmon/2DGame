@@ -145,7 +145,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   charSpeed: 1
-  charAttack: 1
+  charAttack: 22
   charHP: 5
   maxHP: 5
-  player: {fileID: 0}
