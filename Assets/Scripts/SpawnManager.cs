@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class SpawnManager : MonoBehaviour
 {
-    // todo Waveをつくりたい
-    [SerializeField] GameObject enemyPreafabs;
     public Text waveText;
     public int waveCount;
     public int enemyCount;
+
+    [SerializeField] GameObject enemyPreafabs;
 
     // Start is called before the first frame update
     void Start()

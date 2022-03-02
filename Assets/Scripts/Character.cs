@@ -26,11 +26,15 @@ public class Character : MonoBehaviour
         }
     }
 
-    public virtual void DestroyCharacter()
+    public virtual void DestroyCharacter(GameObject dropItem = null)
     {
         if (charHP <= 0)
         {
             Destroy(gameObject);
+            if (dropItem != null)
+            {
+                Instantiate(dropItem);
+            }
         }
     }
 }

@@ -4,22 +4,24 @@ using UnityEngine;
 
 public class Enemy : Character
 {
+    [SerializeField] GameObject coinPrefab;
+
     private GameObject player;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (player = GameObject.FindGameObjectWithTag("Player"))
+        if (player)
         {
             MoveCharacter(player);
         }
-        DestroyCharacter();
+        DestroyCharacter(coinPrefab);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

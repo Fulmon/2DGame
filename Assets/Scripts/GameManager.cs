@@ -1,28 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public int wallet;
     public bool isGameOver;
+
     [SerializeField] GameObject gameoverDisplay;
+    [SerializeField] Text walletText;
+    [SerializeField] Image backgroundImage; // todo scale調整
 
-    //private SpawnManager spawnManager;
-
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        //spawnManager = FindObjectOfType<SpawnManager>();
+        //backgroundImage.transform.localScale = GetComponent<Canvas>().transform.localScale;
     }
 
-    // Update is called once per frame
     void Update()
     {
+        walletText.text = "所持金 : " + wallet;
         if (!GameObject.FindGameObjectWithTag("Player"))
         {
             GameOver();
-            //spawnManager.waveText.transform.position = new Vector3(0, -400);
         }
     }
 
