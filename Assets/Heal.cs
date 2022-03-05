@@ -2,26 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Coin : Item
+public class Heal : Item
 {
-    [SerializeField] GameObject wallet;
-    private GameManager gameManager;
+    [SerializeField] GameObject hpBar;
+    private Player player;
 
     // Start is called before the first frame update
     void Start()
     {
-        wallet = GameObject.Find("WalletText");
-        gameManager = FindObjectOfType<GameManager>();
+        hpBar = GameObject.Find("HPBar");
+        player = FindObjectOfType<Player>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        MoveTo(wallet);
+        MoveTo(hpBar);
     }
 
     protected override void ItemEffect()
     {
-        gameManager.wallet++;
+        player.charHP++;
     }
 }
