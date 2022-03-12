@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Heal : Item
 {
-    [SerializeField] GameObject hpBar;
+    private GameObject hpBar;
     private Player player;
 
     // Start is called before the first frame update
@@ -22,6 +22,10 @@ public class Heal : Item
 
     protected override void ItemEffect()
     {
-        player.charHP++;
+        if (!GameManager.isGameOver)
+        {
+            player.GetComponent<AudioSource>().PlayOneShot(audioClip, 0.5f);
+            player.charHP++;
+        }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Coin : Item
 {
-    [SerializeField] GameObject wallet;
+    private GameObject wallet;
     private GameManager gameManager;
 
     // Start is called before the first frame update
@@ -22,6 +22,10 @@ public class Coin : Item
 
     protected override void ItemEffect()
     {
-        gameManager.wallet++;
+        if (!GameManager.isGameOver)
+        {
+            gameManager.GetComponent<AudioSource>().PlayOneShot(audioClip, 1.0f);
+            gameManager.wallet++;
+        }
     }
 }

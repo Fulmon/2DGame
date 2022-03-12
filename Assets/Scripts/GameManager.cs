@@ -6,12 +6,14 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    //　todo プレイヤーの情報として渡す
     public int wallet;
     public int level = 1;
     public int levelUpCost;
-    public bool isGameOver;
+    public static bool isGameOver;
 
     [SerializeField] GameObject gameoverDisplay;
+    [SerializeField] AudioClip[] audioClips;
 
     // Header
     [SerializeField] Text costText;
@@ -26,22 +28,19 @@ public class GameManager : MonoBehaviour
     [SerializeField] Image backgroundImage; // todo scale調整
 
     private Player player;
+    private AudioSource audioSource;
 
     private void Awake()
     {
         player = FindObjectOfType<Player>();
+        audioSource = GetComponent<AudioSource>();
+        //player.LoadPlayer();
         //backgroundImage.transform.localScale = GetComponent<Canvas>().transform.localScale;
     }
 
     void Update()
     {
-        walletText.text = "所持金 : " + wallet;
-        costText.text = "Cost : " + levelUpCost;
-        levelText.text = "Level : " + level;
-
-        maxHpText.text = "MaxHP : " + player.maxHP;
-        atkText.text = "ATK : " + player.charAttack;
-        speedText.text = "Speed : " + player.charSpeed.ToString("F1");
+        TextDisplay();
 
         if (!GameObject.FindGameObjectWithTag("Player"))
         {
@@ -60,10 +59,22 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    void TextDisplay()
+    {
+        walletText.text = "所持金 : " + wallet;
+        costText.text = "Cost : " + levelUpCost;
+        levelText.text = "Level : " + level;
+
+        maxHpText.text = "MaxHP : " + player.maxHP;
+        atkText.text = "ATK : " + player.charAttack;
+        speedText.text = "Speed : " + player.charSpeed.ToString("F1");
+    }
+
     public void LVUP()
     {
-        if (wallet >= levelUpCost)
+        if ((wallet >= levelUpCost) && !isGameOver)
         {
+            audioSource.PlayOneShot(audioClips[0]);
             level++;
 
             wallet -= levelUpCost;
@@ -74,5 +85,14 @@ public class GameManager : MonoBehaviour
             player.charHP = player.maxHP;
             player.charSpeed += 0.1f;
         }
+        else
+        {
+            audioSource.PlayOneShot(audioClips[1]);
+        }
+    }
+
+    private void OnApplicationQuit()
+    {
+        //player.SavePlayer();
     }
 }

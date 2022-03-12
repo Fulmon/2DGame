@@ -5,12 +5,15 @@ using UnityEngine;
 public class Item : MonoBehaviour
 {
     public float itemSpeed;
+    public AudioClip audioClip;
 
     private float waitTime;
+    //protected AudioSource audioSource;
 
     private void Awake()
     {
         waitTime = Random.Range(0.1f, 0.3f);
+        //audioSource = GetComponent<AudioSource>();
     }
 
     protected void MoveTo(GameObject moveToObj)
@@ -24,8 +27,8 @@ public class Item : MonoBehaviour
 
         if (moveTo.magnitude < 10f)
         {
-            Destroy(gameObject);
             ItemEffect();
+            Destroy(gameObject);
         }
     }
 
