@@ -11,6 +11,9 @@ Unity ver.2020.3.27f1
 敵をオートで倒してお金がドロップすればレベルを上げれます。
 また、ゲームオーバーになってもレベルや所持金を引き継ぎます。
 
+対象　：
+スマートフォンもしくはタブレット
+
 Bug　と　修正点
 - HP may exceed MaxHP
 - quit the application without saving the wave
