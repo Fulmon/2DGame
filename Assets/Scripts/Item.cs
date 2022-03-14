@@ -8,12 +8,10 @@ public class Item : MonoBehaviour
     public AudioClip audioClip;
 
     private float waitTime;
-    //protected AudioSource audioSource;
 
     private void Awake()
     {
         waitTime = Random.Range(0.1f, 0.3f);
-        //audioSource = GetComponent<AudioSource>();
     }
 
     protected void MoveTo(GameObject moveToObj)

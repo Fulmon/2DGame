@@ -22,7 +22,7 @@ public class Coin : Item
 
     protected override void ItemEffect()
     {
-        if (!GameManager.isGameOver)
+        if (!gameManager.isGameOver)
         {
             gameManager.GetComponent<AudioSource>().PlayOneShot(audioClip, 1.0f);
             gameManager.wallet++;

@@ -30,25 +30,31 @@ public class SpawnManager : MonoBehaviour
         waveText.text = "Wave : " + waveCount.ToString();
     }
 
-    // todo Wave調整
     void EnemyGenerator(int maxEnemySpawn)
     {
         for (int i = 0; i < maxEnemySpawn; i++)
         {
             float randomPosX = Random.Range(-2, 2);
-            float randomPosY = Random.Range(-2, 4);
+            float randomPosY = Random.Range(-1.5f, 3.5f);
 
-            Instantiate(enemyPrefab, new Vector2(randomPosX, randomPosY), enemyPrefab.transform.rotation);
+            //Instantiate(enemyPrefab, new Vector2(randomPosX, randomPosY), enemyPrefab.transform.rotation);
 
-            //if (100 > maxEnemySpawn && maxEnemySpawn >= 10)
-            //{
-            //    Instantiate(enemyPrefab2, new Vector2(randomPosX, randomPosY), enemyPrefab2.transform.rotation);
-            //    maxEnemySpawn -= 10;
-            //}
-            //else if(10 > maxEnemySpawn && maxEnemySpawn >= 1)
-            //{
-
-            //}
+            if (maxEnemySpawn >= 100)
+            {
+                Instantiate(enemyPrefab3, new Vector2(randomPosX, randomPosY), enemyPrefab.transform.rotation);
+                maxEnemySpawn -= 100;
+                i--;
+            }
+            else if (100 > maxEnemySpawn && maxEnemySpawn >= 10)
+            {
+                Instantiate(enemyPrefab2, new Vector2(randomPosX, randomPosY), enemyPrefab.transform.rotation);
+                maxEnemySpawn -= 10;
+                i--;
+            }
+            else if (10 > maxEnemySpawn)
+            {
+                Instantiate(enemyPrefab, new Vector2(randomPosX, randomPosY), enemyPrefab.transform.rotation);
+            }
         }
     }
 }

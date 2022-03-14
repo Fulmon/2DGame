@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
+using System.IO;
 
 public class GameManager : MonoBehaviour
 {
-    //　todo プレイヤーの情報として渡す
     public int wallet;
-    public int level = 1;
     public int levelUpCost;
-    public static bool isGameOver;
+    public bool isGameOver;
 
     [SerializeField] GameObject gameoverDisplay;
     [SerializeField] AudioClip[] audioClips;
@@ -25,8 +25,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] Text atkText;
     [SerializeField] Text speedText;
 
-    [SerializeField] Image backgroundImage; // todo scale調整
-
     private Player player;
     private AudioSource audioSource;
 
@@ -34,12 +32,12 @@ public class GameManager : MonoBehaviour
     {
         player = FindObjectOfType<Player>();
         audioSource = GetComponent<AudioSource>();
-        //player.LoadPlayer();
-        //backgroundImage.transform.localScale = GetComponent<Canvas>().transform.localScale;
+        LoadPlayer();
     }
 
     void Update()
     {
+        levelUpCost = player.level;
         TextDisplay();
 
         if (!GameObject.FindGameObjectWithTag("Player"))
@@ -56,6 +54,7 @@ public class GameManager : MonoBehaviour
 
     public void Restart()
     {
+        SavePlayer();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
@@ -63,7 +62,7 @@ public class GameManager : MonoBehaviour
     {
         walletText.text = "所持金 : " + wallet;
         costText.text = "Cost : " + levelUpCost;
-        levelText.text = "Level : " + level;
+        levelText.text = "Level : " + player.level;
 
         maxHpText.text = "MaxHP : " + player.maxHP;
         atkText.text = "ATK : " + player.charAttack;
@@ -75,15 +74,11 @@ public class GameManager : MonoBehaviour
         if ((wallet >= levelUpCost) && !isGameOver)
         {
             audioSource.PlayOneShot(audioClips[0]);
-            level++;
-
             wallet -= levelUpCost;
-            levelUpCost++;
 
-            player.charAttack++;
-            player.maxHP++;
-            player.charHP = player.maxHP;
-            player.charSpeed += 0.1f;
+            player.level++;
+
+            player.charHP = player.maxHP + 1;
         }
         else
         {
@@ -93,6 +88,42 @@ public class GameManager : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        //player.SavePlayer();
+        SavePlayer();
+    }
+
+    // セーブとロードのJson
+    [Serializable]
+    class SaveData
+    {
+        public int saveLevel;
+        public int saveMaxHP;
+        public int saveWallet;
+    }
+
+    public void SavePlayer()
+    {
+        SaveData saveData = new SaveData();
+        saveData.saveLevel = player.level;
+        saveData.saveMaxHP = player.maxHP;
+        saveData.saveWallet = wallet;
+
+        string json = JsonUtility.ToJson(saveData);
+        File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+    }
+
+    public void LoadPlayer()
+    {
+        string path = Application.persistentDataPath + "/savefile.json";
+
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            SaveData saveData = JsonUtility.FromJson<SaveData>(json);
+
+            if (saveData.saveLevel == 0) return;
+            player.level = saveData.saveLevel;
+            player.maxHP = saveData.saveMaxHP;
+            wallet = saveData.saveWallet;
+        }
     }
 }

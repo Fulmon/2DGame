@@ -22,7 +22,7 @@ public class Heal : Item
 
     protected override void ItemEffect()
     {
-        if (!GameManager.isGameOver)
+        if (player != null)
         {
             player.GetComponent<AudioSource>().PlayOneShot(audioClip, 0.5f);
             player.charHP++;

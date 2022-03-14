@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
-using System.IO;
 
 public class Player : Character
 {
+    public int level = 1;
+
     [SerializeField] Scrollbar hpBar;
     [SerializeField] Text hpText;
     [SerializeField] AudioClip audioClip;
@@ -16,6 +16,7 @@ public class Player : Character
 
     private void Start()
     {
+        charHP = maxHP;
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -27,6 +28,7 @@ public class Player : Character
             MoveCharacter(enemy);
         }
         HPBarDisplay();
+        StatusForLevel();
         DestroyCharacter();
     }
 
@@ -53,41 +55,10 @@ public class Player : Character
         }
     }
 
-    // セーブとロードのJson
-    [Serializable]
-    class SaveData
+    void StatusForLevel()
     {
-        public int saveHp;
-        public int saveMaxHp;
-        public int saveAtk;
-        public float saveSpeed;
-    }
-
-    public void SavePlayer()
-    {
-        SaveData saveData = new SaveData();
-        saveData.saveHp = charHP;
-        saveData.saveMaxHp = maxHP;
-        saveData.saveAtk = charAttack;
-        saveData.saveSpeed = charSpeed;
-
-        string json = JsonUtility.ToJson(saveData);
-        File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
-    }
-
-    public void LoadPlayer()
-    {
-        string path = Application.persistentDataPath + "/savefile.json";
-
-        if (File.Exists(path))
-        {
-            string json = File.ReadAllText(path);
-            SaveData saveData = JsonUtility.FromJson<SaveData>(json);
-
-            charHP = saveData.saveHp;
-            maxHP = saveData.saveMaxHp;
-            charAttack = saveData.saveAtk;
-            charSpeed = saveData.saveSpeed;
-        }
+        maxHP = 10 + level;
+        charAttack = level;
+        charSpeed = 5.0f + ((float)level / 10);
     }
 }
